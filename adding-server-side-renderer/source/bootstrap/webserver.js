@@ -10,14 +10,14 @@ core('webserver')
   .extension('renderer', renderer)
   .extension('debug', debug)
   .middleware({
-    log                     : require('../middleware/debug'),
+    debug                   : require('../middleware/debug'),
     response                : require('../middleware/response'),
     'components.home'       : require('../middleware/components/home'),
     'components.navigation' : require('../middleware/components/navigation'),
     'components.contact'    : require('../middleware/components/contact'),
     'layouts.default'       : require('../middleware/layouts/default'),
   })
-  .run('*', 'log')
+  .run('*', 'debug')
   .run('*', 'layouts.default')
   .run('*', 'components.navigation')
   .run('/', 'components.home')
