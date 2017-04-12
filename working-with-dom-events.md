@@ -2,7 +2,7 @@
 
 In this guide we will do a simple `console.log` from our event middleware that will show you that the DOM is ready to be accessed.
 
-##### working-with-dom-events/source/events/navigation.js
+##### working-with-dom-events/source/middleware/events/navigation.js
 ```
 module.exports = (next, relay) => {
   console.log(\`There are \$\{ document.querySelector(\'nav\').children.length \} menu items\`);
@@ -12,7 +12,7 @@ module.exports = (next, relay) => {
 
 Just a regular middleware function that should give is the number of menu items.
 
-##### working-with-dom-events/source/bootstrap/client.js
+##### working-with-dom-events/source/middleware/bootstrap/client.js
 ```
 document.addEventListener("DOMContentLoaded", function(event) {
   const router   = require('lr-client-router');
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     .extension('renderer', renderer, true)
     .middleware({
       'response'          : (next, relay) => { relay.extensions.renderer.html() },
-      'events.navigation' : require('../events/navigation')
+      'events.navigation' : require('../middleware/events/navigation')
     });
 
   require('./road')(road)
@@ -46,7 +46,7 @@ We have changed the `road.js` file so that it gives us back the `road` object. O
 
 > It is good practice to always wrap the `client.js` file in a `DOMContentLoaded` event. This way you can always update the road when you need to.
 
-##### working-with-dom-events/source/bootstrap/road.js
+##### working-with-dom-events/source/middleware/bootstrap/road.js
 ```
 const debug = require('../extensions/debug');
 
@@ -79,6 +79,14 @@ The last file that has changed is the `road.js` file. Two changes have been made
   .run('nav', 'events.navigation', 'domReady')
 ```
 
-We have added a listener for the `nav` html selector with `updateType` `domReady`. Every time the navigation is re-rendered it will trigger the appropriate middleware.
+We have added a listener for the `nav` html selector with `updateType` `domReady`. Every time the navigation is initialized or re-rendered it will trigger the appropriate middleware.
 
 > The `lr-client-renderer` is the package that sends out events whenever a component is ready and loaded in the dom.
+
+> When you want to have a component that should not be re-rendered every single time, which is typical for navigation components, you can add it the the webserver only like so
+> ```
+> .where('webserver')
+>   .run('*', 'components.navigation')
+> ```
+
+Next: [adding-url-parameters-via-a-parser](/guide/adding-url-parameters-via-a-parser)
