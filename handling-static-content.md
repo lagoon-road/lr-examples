@@ -62,6 +62,6 @@ module.exports = (next, relay, request, response) => {
 }
 ```
 
-We will not going to much into detail on how this middleware works, it is pretty self explanatory. The only thing to notice is that we use `relay.exit()` after we are done responding to a static request. Read the [stack and middleware](/guide/stack-and-middleware) section to find out why.
+We will not going to much into detail on how this middleware works, it is pretty self explanatory. The only thing to notice is that we use `relay.exit()` after we are done responding to a static request. Read the [Update and middleware stack](/guide/update-and-middleware-stack) section to find out why.
 
 Next: [Turn your server side rendered page in to a single page app](/guide/make-a-single-page-app)

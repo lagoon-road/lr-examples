@@ -43,4 +43,4 @@ You can now use dynamic url parts via the relay object, `relay.parameters`.
 
 > The standard parser is for urls, but you are not limited to urls by any means. Want to analyze JSON or some other string values, [write are parser](/guide/writing-a-parser) and become as flexible as you need to be
 
-Next: [Stack-and-middleware](/guide/stack-and-middleware)
+Next: [Update and middleware stack](/guide/update-and-middleware-stack)

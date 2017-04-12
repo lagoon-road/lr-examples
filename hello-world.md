@@ -73,7 +73,7 @@ As you can see the middleware method expects an object as argument. It is a flat
 ```
 To act upon an event that might be triggered by the router, we need to add some listeners to the road. There are a couple of ways to do this. There is `run`, `noMatch`, `error` and `done`. The first three we will see in the following examples in this guide. For now we use the `done` hook. The `done` hook is the last middleware hook that gets added to the stack of middleware that needs to be executed. It is the perfect place to respond to requests and as we will see later, render html. As you can see, the method takes a single argument, the middleware id. The middleware id is the key in the object that we specified in the middelware method. Now we have added a listener to the road, so whenever an update happends, regardless of the path it will go through the `done` method and in our case respond with a nice 'hello world'.
 
-> Read more about how the updates and middleware stack work in the [stack and middleware](/guide/stack-and-middleware) guide.
+> Read more about how the updates and middleware stack work in the [Update and middleware stack](/guide/update-and-middleware-stack) guide.
 
 Now that we have got our feet wet in the warm calm waters of Lagoon road it is time to add a server side renderer to send some proper html back.
 
