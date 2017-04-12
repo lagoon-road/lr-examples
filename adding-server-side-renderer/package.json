@@ -16,7 +16,7 @@
     "url": "https://github.com/lagoon-road/lr-examples/issues"
   },
   "homepage": "https://github.com/lagoon-road/lr-examples#readme",
-  "dependencies": {
+  "devDependencies": {
     "nodemon": "^1.11.0"
   }
 }
