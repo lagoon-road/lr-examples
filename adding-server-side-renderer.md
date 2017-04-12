@@ -1,6 +1,6 @@
 # Adding server side renderer
 
-After creating a simple hello world example it is time to add some proper routing to the server side. The following code uses the `lr-server-renderer` the let us easily add a template and components.
+After creating a simple hello world example it is time to add some proper rendering to the server side. The following code uses the `lr-server-renderer` the let us easily add a template and components.
 
 ##### adding-server-side-renderer/source/bootstrap/webserver.js
 ```
@@ -46,7 +46,7 @@ module.exports = message => {
 }
 ```
 
-As you can see the `debug` extension is nothing more then a function. In our case just a function around the `console.log`. This might not be the most useful extension but it shows how you can use extensions to centralize your code. If we were to use an actual logger/debugger like `debug`, `morgan` or `winston` we can create a very thin function wrapper and use the extension in all our middleware. This way when you change your debugger later, you only have to change the extension and have all the middleware automatically use it. Pretty DRY.
+As you can see the `debug` extension is nothing more then a function. In our case just a function around the `console.log`. This might not be the most useful extension but it shows how you can use extensions to centralize your code. If we were to use an actual logger/debugger like `debug`, `morgan` or `winston` we can create a very thin function wrapper and use the extension in all our middleware. When you change your debugger later, you only change the extension and have all the middleware automatically use it. Pretty DRY.
 
 So how would you use the extension in your middleware? Well for that we look at the `debug` middleware.
 ```
@@ -119,12 +119,12 @@ Each request needs a template so we add it like we did with the `debug` middlewa
 .run('*', 'layouts.default')
 ```
 
-You can see that you can easily use multiple templates for different routes if you wished to.
+You can see that you can easily use multiple templates for different routes if you wish to.
 
 > We are passing in raw html to the renderer. Because of this it becomes very easy to use any templating engine, as long as you get a string back, you can use whatever you want. This is one of the ways that Lagoon road is unopinionated.
 
 ### Adding a component
-The template is in place, time to add the components. We will look at the template for the contact page, all the other middleware that we use for the components uses the same setup.
+The template is in place, time to add the components. We will look at the middleware for the contact page, all the other components use the same technique.
 
 ```
 module.exports = (next, relay) => {
@@ -134,7 +134,7 @@ module.exports = (next, relay) => {
 }
 ```
 
-We use the same renderer extension as we used for the template, but a different method, `render`. This  method takes two parameters. The first one, again a raw html string, the second one, a html selector. Just like when you want to work with the DOM.
+We use the same renderer extension as we used for the template, but a different method, `render`. This  method takes two parameters. The first one, again a raw html string, the second one, a html selector. Just like you do when working with the regular browser DOM.
 
 Hooking it up to the road is slightly different, we want to only render the component on the `/contact` page, so we will set up the `matchValue` accordingly
 ```
@@ -153,12 +153,6 @@ module.exports = (next, relay, request, response) => {
 ```
 We call the `html` method to get a fully renderer html page as a string and send that back to the client.
 
-That is it. The server side renderer is implemented, time to add the client side code and create a single page app.
+Before we go and add the client side code to create a single page app, we want to take a look at how we can handle static content, like our javascript files, images and stylesheets.
 
-Next: [Make a single page app](/guide/make-a-single-page-app)
-
-### Some thoughts about static content
-Although it is possible to add middleware to handle your static files, like scripts, images and stylesheets. It is better to do this via a reverse proxy on a webserver like Nginx. Node is not the best choice when it comes to serving static content. This is way easier with a Nginx setup. It is trivial to gzip your files, add caching and catch redundant calls to your node server.
-Furthermore it is pretty straight forward to add HTTPS with let's encrypt.
-
-Read more about reverse proxies and Nginx in [this](https://code.lengstorf.com/deploy-nodejs-ssl-digitalocean/) outstanding post. Although it is for a Digital Ocean droplet, it shows you very clearly how to setup a reverse proxy that you can use without Digital Ocean.
+Next: [Handling static content](/guide/handling-static-content)
