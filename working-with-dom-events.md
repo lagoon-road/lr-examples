@@ -5,7 +5,7 @@ In this guide we will do a simple `console.log` from our event middleware that w
 ##### working-with-dom-events/source/events/navigation.js
 ```
 module.exports = (next, relay) => {
-  console.log(\`There are \$\{ document.querySelector('nav').children.length \} menu items`);
+  console.log(\`There are \$\{ document.querySelector(\'nav\').children.length \} menu items\`);
   next();
 }
 ```
@@ -32,9 +32,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 ```
 
-We hook up the middleware in the `client.js` file because it is obviously only used on the client.
+The most changes have happend in the `client.js` file. Firstly we wrapped the whole code in a `DOMContentLoaded` event handler. The reason for this is that we want to initialize the events middleware when we first open the page.
 
-#####
+You can see that we also added the `events.navigation` middleware to this file, DOM events happen only on the client so this will make sense.
+
+The third and last change is the following piece of code
+```
+require('./road')(road)
+  .where('client')
+    .update({ matchValue : 'nav', updateType : 'domReady' })
+```
+We have changed the `road.js` file so that it gives us back the `road` object. Once the shared methods have been applied to the road it is time to fire a manual `update` event. The `update` event takes a single object as argument with two parameters. The `matchValue` and `updateType`. In this case we want to update our road for all the `nav` html selectors that have an `updateType` of `domReady`. You can see here that Lagoon road is in no way limited to handle the http protocol. We are doing updates based on html selectors and give it a custom `updateType`!
+
+> It is good practice to always wrap the `client.js` file in a `DOMContentLoaded` event. This way you can always update the road when you need to.
+
+##### working-with-dom-events/source/bootstrap/road.js
 ```
 const debug = require('../extensions/debug');
 
@@ -61,6 +73,12 @@ module.exports = road => {
 }
 ```
 
-Finally we will add the middleware to the `client` environment and listen to the `domLoaded` `updateType`. As you can see we are not limited to the typical HTTP methods when it comes to the `updateType`.
+The last file that has changed is the `road.js` file. Two changes have been made to this file. We are returning the road object, so the client can initiate the update on `DOMContentLoaded`. The other change is the following code
+```
+.where('client')
+  .run('nav', 'events.navigation', 'domReady')
+```
+
+We have added a listener for the `nav` html selector with `updateType` `domReady`. Every time the navigation is re-rendered it will trigger the appropriate middleware.
 
 > The `lr-client-renderer` is the package that sends out events whenever a component is ready and loaded in the dom.
