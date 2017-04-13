@@ -1,6 +1,8 @@
 module.exports = road => {
   road
+    .extension('updater', require('../extensions/updater'), true)
     .middleware({
+      'log'                          : require('../middleware/log'),
       'data.about'                   : require('../middleware/data/about'),
       'data.home'                    : require('../middleware/data/home'),
       'components.navigation.loaded' : require('../middleware/components/navigation/loaded'),
@@ -18,6 +20,7 @@ module.exports = road => {
       .run('*', 'events.navigation', 'navigationLoaded')
       .run('/', 'events.home', 'homeLoaded')
     .where('webserver', 'client')
+      .run('updateValue', 'log', 'updateType')
       .run('*', 'components.navigation.loaded')
       .run('/', 'components.home.loaded')
       .run('/', 'components.home.loading', 'data')
