@@ -8,6 +8,7 @@ core('webserver')
   .middleware({
     response : (next, relay, request, response) => {
       response.end('<h1>Hello world</h1>');
+      next();
     }
   })
   .done('response');

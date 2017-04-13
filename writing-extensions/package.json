@@ -1,0 +1,49 @@
+{
+  "name": "lr-examples",
+  "version": "1.0.0",
+  "description": "Examples for lagoon road",
+  "main": "index.js",
+  "scripts": {
+    "css": "node_modules/.bin/minify --output public/stylesheets/styles.css source/stylesheets/styles.css",
+    "js-min": "node_modules/.bin/browserify source/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing > public/scripts/main.min.js",
+    "serve": "NODE_ENV=development node_modules/.bin/nodemon --harmony source/bootstrap/webserver.js",
+    "watch": "node_modules/.bin/npm-watch"
+  },
+  "watch": {
+    "js-min": {
+      "patterns": [
+        "source/*"
+      ],
+      "extensions": "js"
+    },
+    "css": {
+      "patterns": [
+        "source/stylesheets"
+      ],
+      "extensions": "css"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lagoon-road/lr-examples.git"
+  },
+  "author": "Roy Niels",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lagoon-road/lr-examples/issues"
+  },
+  "homepage": "https://github.com/lagoon-road/lr-examples#readme",
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "babel-preset-latest": "^6.22.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.0.0",
+    "minifier": "^0.8.1",
+    "uglify-js-harmony": "^2.7.5",
+    "npm-watch": "^0.1.8"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "superagent": "^3.5.2"
+  }
+}
