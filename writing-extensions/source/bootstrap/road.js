@@ -1,30 +1,33 @@
-const debug = require('../extensions/debug');
-
 module.exports = road => {
-  return road
-    .extension('debug', debug)
+  road
     .middleware({
-      debug                   : require('../middleware/debug'),
-      'components.navigation' : require('../middleware/components/navigation'),
-      'components.home'       : require('../middleware/components/home'),
-      'components.about'      : require('../middleware/components/about'),
-      'components.fail'       : require('../middleware/components/fail'),
-      'components.error'      : require('../middleware/components/error'),
-      'components.loading'    : require('../middleware/components/loading'),
+      'data.about'                   : require('../middleware/data/about'),
+      'data.home'                    : require('../middleware/data/home'),
+      'components.navigation.loaded' : require('../middleware/components/navigation/loaded'),
+      'components.home.loaded'       : require('../middleware/components/home/loaded'),
+      'components.home.loading'      : require('../middleware/components/home/loading'),
+      'components.about.loaded'      : require('../middleware/components/about/loaded'),
+      'components.about.loading'     : require('../middleware/components/about/loading'),
+      'components.about.error'       : require('../middleware/components/about/error'),
+      'fail'                         : require('../middleware/fail'),
     })
     .where('webserver')
-      .run('*', 'debug')
       .run('*', 'statics')
       .run('*', 'layouts.default')
     .where('client')
-      .run('nav', 'events.navigation', 'domReady')
+      .run('*', 'events.navigation', 'navigationLoaded')
+      .run('/', 'events.home', 'homeLoaded')
     .where('webserver', 'client')
-      .run('*', 'components.navigation')
-      .run('/', 'components.home')
-      .run('/about', 'components.loading')
-      .run('/about', 'components.about')
-      .run('/error', 'components.fail')
-      .error('components.error')
+      .run('*', 'components.navigation.loaded')
+      .run('/', 'components.home.loaded')
+      .run('/', 'components.home.loading', 'data')
+      .run('/', 'data.home', 'data')
+      .run('/', 'components.home.loaded', 'data')
+      .run('/error', 'fail')
+      .run('/about', 'components.about.loading')
+      .run('/about', 'data.about')
+      .run('/about', 'components.about.loaded')
+      .error('components.about.error')
     .where('webserver')
       .done('response');
 }

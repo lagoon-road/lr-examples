@@ -1,5 +1,4 @@
-module.exports = (next, relay, request) => {
-  relay.extensions.debug('Selecting template default: ' + request.url);
+module.exports = (next, relay) => {
   relay.extensions.renderer.template(`
     <!DOCTYPE html>
     <html lang="en">
