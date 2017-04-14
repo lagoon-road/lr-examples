@@ -1,7 +1,7 @@
 const debug = require('../extensions/debug');
 
 module.exports = road => {
-  return road
+  road
     .extension('debug', debug)
     .middleware({
       debug                   : require('../middleware/debug'),
@@ -14,10 +14,11 @@ module.exports = road => {
       .run('*', 'statics')
       .run('*', 'layouts.default')
     .where('client')
-      .run('nav', 'events.navigation', 'domReady')
+      .run('*', 'events.navigation', 'navigationLoaded')
     .where('webserver', 'client')
       .run('*', 'components.navigation')
       .run('/', 'components.home')
       .run('/contact', 'components.contact')
+    .where('webserver')
       .done('response');
 }

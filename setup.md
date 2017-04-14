@@ -43,4 +43,6 @@ Before you can run the code, you need to install all the npm packages, to do so 
 npm install
 ```
 
+> The Lagoon road packages contain ES6 code, for the client it will be transpiled and browserified. Server side code isn't transpiled so either install the latest node version or transpile the code to run it in an older node version.
+
 #### Next: [Hello-world](/guide/hello-world)

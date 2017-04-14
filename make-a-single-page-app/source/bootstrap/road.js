@@ -17,5 +17,6 @@ module.exports = road => {
       .run('*', 'components.navigation')
       .run('/', 'components.home')
       .run('/contact', 'components.contact')
+    .where('webserver')
       .done('response');
 }

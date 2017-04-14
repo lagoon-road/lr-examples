@@ -35,7 +35,7 @@ const router   = require('lr-server-router')(server);
 ```
 The router package is a simple wrapper around the server request event and takes care of routing the request throught the core. As you can see it needs one argument, namely the server that you want to use.
 
-> Lagoon road doesn't limit itself to the HTTP protocol. Using websockets, or maybe both together, [extensions](guide/extensions) are the way to go.
+> Lagoon road doesn't limit itself to the HTTP protocol. Using websockets, or maybe both together, [extensions](/guide/writing-extensions) are the way to go.
 
 The next step is initializing the core and create a road object.
 
@@ -55,7 +55,7 @@ After we have initialized the road we want to attach our router as an extension.
 
 It is very simple to add an extension. Just give it an id, the first argument, add the package, the second argument, and you are done. In our case we have a third argument, a boolean. This tells the core to execute the middleware on initialization. This is typically for packages that can trigger updates, like a router, that receives request events.
 
-> To learn more about extensions and execution on initialization read about writing [extensions](/guide/extensions)
+> To learn more about extensions and execution on initialization read about writing [extensions](/guide/writing-extensions)
 
 Now that we added the router as an extension, we can actually receive request events. In order to act upon these events we need to add some middleware.
 
@@ -63,10 +63,13 @@ Now that we added the router as an extension, we can actually receive request ev
 .middleware({
   response : (next, relay, request, response) => {
     response.end('<h1>Hello world</h1>');
+    next();
   }
 })
 ```
-As you can see the middleware method expects an object as argument. It is a flat, non nested object where you can assign all the middleware that you need. In our case that is a single one. The middleware might have an odd argument signature for people who are familiar with middleware. There is a good reason for this change which you can read about in the [faq](/faq#middlware-signature) section. The middlware is a simple response that sends back the html that we want to show on the client. Last step in the process, add the middleware to a event.
+As you can see the middleware method expects an object as argument. It is a flat, non nested object where you can assign all the middleware that you need. In our case that is a single one. The middleware might have an odd argument signature for people who are familiar with middleware. There is a good reason for this change which you can read about in the [faq](/faq#middlware-signature)section. The middlware is a simple response that sends back the html that we want to show on the client. Last step in the process, add the middleware to a event.
+
+> Always call the `next` method, even in the last middleware that you add. Read why in the [update and middleware stack](/guide/update-and-middleware-stack)
 
 ```
 .done('response')

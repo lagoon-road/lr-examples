@@ -39,15 +39,12 @@ const router   = require('lr-client-router');
 const renderer = require('lr-client-renderer');
 const road     = require('lr-core')('client')
   .extension('router', router, true)
-  .extension('renderer', renderer, true)
-  .middleware({
-    'response' : (next, relay) => { relay.extensions.renderer.html() }
-  });
+  .extension('renderer', renderer, true);
 
 require('./road')(road);
 ```
 
-As you can see the client side code looks very similar to the web server code, the packages are different but are hooked in under the exact same name, this allows us to use the same middleware for both client and server. Specific client side middleware is hooked up in the `client.js` file.
+As you can see the client side code looks very similar to the web server code, the packages are different but are hooked in under the exact same name, this allows us to use the same middleware for both client and server. Specific client side middleware can be hooked up in the `client.js` file.
 
 ##### lr-examples/make-a-single-page-app/source/road.js
 ```
