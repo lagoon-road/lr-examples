@@ -1,6 +1,6 @@
 # Make a single page app
 
-Now that we have all the server side stuff in place it is time to spice things up a bit and show you where Lagoon road really shines, sharing code between environments. Let's first show you the code that we use to make it all work.
+Now that we have all the server side stuff in place it is time to spice things up a bit and show you where Lagoon road really shines, sharing code between environments.
 
 ##### lr-examples/make-a-single-page-app/source/webserver.js
 ```
@@ -71,7 +71,7 @@ module.exports = road => {
 }
 ```
 
-Lastly the file where all the magic happends, `road.js`. As you might have expected is this file more or less the same as the other two files, middleware is hooked up, extensions added and listeners (`run` and `done`) listening. The road file is the place where we add all the stuff that needs to be shared between our environments. This is not limited to the client and web server. If you have an api server you can add the listeners here too. You have a single file were you can find all the paths that your app is using. It becomes very easy to figure out the flow of your app.
+The road file is the place where we add all the stuff that needs to be shared between our environments. This is not limited to the client and web server. If you have an API server you can add the listeners here too. You have a single file were you can find all the paths that your app is using. It becomes very easy to figure out the flow of your app.
 
 You can see that we use a new method
 ```

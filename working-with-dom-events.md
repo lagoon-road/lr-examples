@@ -14,44 +14,27 @@ Just a regular middleware function that should give is the number of menu items.
 
 ##### working-with-dom-events/source/middleware/bootstrap/client.js
 ```
-document.addEventListener("DOMContentLoaded", function(event) {
-  const router   = require('lr-client-router');
-  const renderer = require('lr-client-renderer');
-  const core     = require('lr-core');
-  const road     = core('client')
-    .extension('router', router, true)
-    .extension('renderer', renderer, true)
-    .middleware({
-      'response'          : (next, relay) => { relay.extensions.renderer.html() },
-      'events.navigation' : require('../middleware/events/navigation')
-    });
+const router   = require('lr-client-router');
+const renderer = require('lr-client-renderer');
+const core     = require('lr-core');
+const road     = core('client')
+  .extension('router', router, true)
+  .extension('renderer', renderer, true)
+  .middleware({
+    'events.navigation' : require('../middleware/events/navigation')
+  });
 
-  require('./road')(road)
-    .where('client')
-      .update({ matchValue : 'nav', updateType : 'domReady' })
-});
+require('./road')(road);
 ```
 
-The most changes have happend in the `client.js` file. Firstly we wrapped the whole code in a `DOMContentLoaded` event handler. The reason for this is that we want to initialize the events middleware when we first open the page.
-
-You can see that we also added the `events.navigation` middleware to this file, DOM events happen only on the client so this will make sense.
-
-The third and last change is the following piece of code
-```
-require('./road')(road)
-  .where('client')
-    .update({ matchValue : 'nav', updateType : 'domReady' })
-```
-We have changed the `road.js` file so that it gives us back the `road` object. Once the shared methods have been applied to the road it is time to fire a manual `update` event. The `update` event takes a single object as argument with two parameters. The `matchValue` and `updateType`. In this case we want to update our road for all the `nav` html selectors that have an `updateType` of `domReady`. You can see here that Lagoon road is in no way limited to handle the http protocol. We are doing updates based on html selectors and give it a custom `updateType`!
-
-> It is good practice to always wrap the `client.js` file in a `DOMContentLoaded` event. This way you can always update the road when you need to.
+We have added the middleware to the client, this is obviously because it should only be used on the clientside.
 
 ##### working-with-dom-events/source/middleware/bootstrap/road.js
 ```
 const debug = require('../extensions/debug');
 
 module.exports = road => {
-  return road
+  road
     .extension('debug', debug)
     .middleware({
       debug                   : require('../middleware/debug'),
@@ -64,29 +47,39 @@ module.exports = road => {
       .run('*', 'statics')
       .run('*', 'layouts.default')
     .where('client')
-      .run('nav', 'events.navigation', 'domReady')
+      .run('*', 'events.navigation', 'navigationLoaded')
     .where('webserver', 'client')
       .run('*', 'components.navigation')
       .run('/', 'components.home')
       .run('/contact', 'components.contact')
+    .where('webserver')
       .done('response');
 }
 ```
 
-The last file that has changed is the `road.js` file. Two changes have been made to this file. We are returning the road object, so the client can initiate the update on `DOMContentLoaded`. The other change is the following code
+We added a new hook to the road
+
 ```
-.where('client')
-  .run('nav', 'events.navigation', 'domReady')
+.run('*', 'events.navigation', 'navigationLoaded')
 ```
 
-We have added a listener for the `nav` html selector with `updateType` `domReady`. Every time the navigation is initialized or re-rendered it will trigger the appropriate middleware.
+As you can see we added a custom `updateType`. This is an update type that the client side router triggers whenever a file has been added to the DOM. How it is constructed we will see after we have looked at the navigation template middleware.
 
-> The `lr-client-renderer` is the package that sends out events whenever a component is ready and loaded in the dom.
+##### working-with-dom-events/source/middleware/middleware/components/navigation.js
 
-> When you want to have a component that should not be re-rendered every single time, which is typical for navigation components, you can add it the the webserver only like so
-> ```
-> .where('webserver')
->   .run('*', 'components.navigation')
-> ```
+```
+module.exports = (next, relay, request) => {
+  relay.extensions.debug('Rendering component navigation: ' + request.url);
+  relay.extensions.renderer.render('
+    <ul id="navigation" data-lr="loaded">
+      <li><a href="/">Home</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  ', 'nav');
+  next();
+}
+```
 
-Next: [adding-url-parameters-via-a-parser](/guide/adding-url-parameters-via-a-parser)
+We added an `id` and a `data-lr` attribute. Together they are responsible for the DOM added update event. The `id` is just for the identification of the component. The `data-lr` attribute adds a type to the component. You can create several templates for the same component. One for when data is loading, one for when data is loaded and you could add one when an error occurs. The `data-lr` value will be passed through as the `updateType` together with the id in a camelcased form. So in this example it will be `navigationLoaded`.
+
+Next: [Adding url parameters via a parser](/guide/adding-url-parameters-via-a-parser)

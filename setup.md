@@ -3,7 +3,7 @@ Like any other npm package you can just run
 ```
 npm i --save lr-core
 ```
-All the package names for the supplied packages can be found in the [reference overview](/reference).
+> All the package names for the supplied packages can be found in the [reference overview](/reference).
 
 ## Following the examples
 The easiest way to follow the examples is just to clone the lr-examples repo. This repo contains some build tools that help generating client side js code. So you don't have to manually setup Babel, Browserify and the likes.

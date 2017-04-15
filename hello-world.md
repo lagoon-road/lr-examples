@@ -1,5 +1,5 @@
 # Hello world
-The most simple and of course mandatory example is the hello-world example. In our case it will be a server only response which you can check in your browser. To make it happen open a browser tab and navigate to `http://localhost:8080`. This should show you a nice header with _Hello World_.
+The most simple and of course mandatory example is the hello-world example. In our case it will be a server only response which you can check in your browser. Open a browser tab and navigate to `http://localhost:8080`. This should show you a nice header with _Hello World_.
 
 > Check the [setup and running the examples](/guide/setup) to see how to start the webserver.
 
@@ -27,7 +27,7 @@ server.listen(8080, function() {
 });
 ```
 
-As you can see, it is a pretty straight forward process to get the response back from the server. First we add some standard packages and create the node server.
+As you can see, it is a pretty straight forward process. First we add some standard packages and create the node server.
 
 The first thing that needs some explanation is the router package.
 ```
@@ -67,16 +67,17 @@ Now that we added the router as an extension, we can actually receive request ev
   }
 })
 ```
-As you can see the middleware method expects an object as argument. It is a flat, non nested object where you can assign all the middleware that you need. In our case that is a single one. The middleware might have an odd argument signature for people who are familiar with middleware. There is a good reason for this change which you can read about in the [faq](/faq#middlware-signature)section. The middlware is a simple response that sends back the html that we want to show on the client. Last step in the process, add the middleware to a event.
+As you can see the middleware method expects an object as argument. It is a flat, non nested object where you can assign all the middleware that you need. In our case that is a single one. The middleware might have an odd argument signature for people who are familiar with middleware. There is a good reason for this change which you can read about in the [faq](/faq) section. The middlware is a simple response that sends back the html that we want to show on the client.
 
 > Always call the `next` method, even in the last middleware that you add. Read why in the [update and middleware stack](/guide/update-and-middleware-stack)
+
+To act upon an event that might be triggered by the router, we need to add some listeners to the road. There are a couple of ways to do this. There is `run`, `noMatch`, `error` and `done`. The first three we will see in the following examples in this guide. For now we use the `done` hook. 
 
 ```
 .done('response')
 ```
-To act upon an event that might be triggered by the router, we need to add some listeners to the road. There are a couple of ways to do this. There is `run`, `noMatch`, `error` and `done`. The first three we will see in the following examples in this guide. For now we use the `done` hook. The `done` hook is the last middleware hook that gets added to the stack of middleware that needs to be executed. It is the perfect place to respond to requests and as we will see later, render html. As you can see, the method takes a single argument, the middleware id. The middleware id is the key in the object that we specified in the middelware method. Now we have added a listener to the road, so whenever an update happends, regardless of the path it will go through the `done` method and in our case respond with a nice 'hello world'.
 
-> Read more about how the updates and middleware stack work in the [Update and middleware stack](/guide/update-and-middleware-stack) guide.
+The `done` hook is the last middleware that gets added to the stack that needs to be executed. It is the perfect place to respond to requests and as we will see later, render html. As you can see, the method takes a single argument, the middleware id. The middleware id is the key in the object that we specified in the middelware method. Now we have added a listener to the road, so whenever an update happends, regardless of the path it will go through the `done` method and in our case respond with a nice 'hello world'.
 
 Now that we have got our feet wet in the warm calm waters of Lagoon road it is time to add a server side renderer to send some proper html back.
 
