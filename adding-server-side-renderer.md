@@ -6,12 +6,11 @@ After creating a simple hello world example it is time to add some proper render
 ```
 const protocol = require('http');
 const server   = protocol.createServer();
-const core     = require('lr-core');
 const router   = require('lr-server-router')(server);
 const renderer = require('lr-server-renderer')();
 const debug    = require('../extensions/debug');
 
-core('webserver')
+require('lr-main')('webserver')
   .extension('router', router, true)
   .extension('renderer', renderer)
   .extension('debug', debug)
