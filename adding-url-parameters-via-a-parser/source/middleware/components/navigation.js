@@ -4,6 +4,7 @@ module.exports = (next, relay, request) => {
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/contact">Contact</a></li>
+      <li><a href="/params/1">Parameters</a></li>
     </ul>
   `, 'nav');
   next();

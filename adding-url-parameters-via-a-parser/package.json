@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "css": "node_modules/.bin/minify --output public/stylesheets/styles.css source/stylesheets/styles.css",
-    "js-min": "node_modules/.bin/browserify source/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/scripts/main.min.js && rm -f public/scripts/main.js",
+    "js-min": "node_modules/.bin/browserify source/bootstrap/client.js -t [ babelify --presets [ latest babili ] ] --ignore-missing > public/scripts/main.min.js && rm -f public/scripts/main.js",
     "serve": "NODE_ENV=development node_modules/.bin/nodemon --harmony source/bootstrap/webserver.js",
     "watch": "node_modules/.bin/npm-watch"
   },
@@ -34,13 +34,21 @@
   },
   "homepage": "https://github.com/lagoon-road/lr-examples#readme",
   "devDependencies": {
-    "nodemon": "^1.11.0",
     "babel-polyfill": "^6.23.0",
+    "babel-preset-babili": "0.0.12",
     "babel-preset-latest": "^6.22.0",
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
     "minifier": "^0.8.1",
-    "uglify-js-harmony": "^2.7.5",
+    "nodemon": "^1.11.0",
     "npm-watch": "^0.1.8"
+  },
+  "dependencies": {
+    "lr-client-renderer": "^1.0.0",
+    "lr-client-router": "^1.0.0",
+    "lr-main": "^1.0.0",
+    "lr-server-renderer": "^1.0.0",
+    "lr-server-router": "^1.0.1",
+    "lr-url-parser": "^1.0.0"
   }
 }

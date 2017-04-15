@@ -2,7 +2,7 @@ const debug  = require('../extensions/debug');
 const parser = require('lr-url-parser')();
 
 module.exports = road => {
-  return road
+  road
     .parser(parser)
     .extension('debug', debug)
     .middleware({
@@ -21,7 +21,7 @@ module.exports = road => {
       .run('*', 'components.navigation')
       .run('/', 'components.home')
       .run('/params/:id', 'components.home')
-      .run('/params/:id/:something', 'components.home')
       .run('/contact', 'components.contact')
+    .where('webserver')
       .done('response');
 }
