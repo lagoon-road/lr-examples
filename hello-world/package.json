@@ -18,5 +18,9 @@
   "homepage": "https://github.com/lagoon-road/lr-examples#readme",
   "devDependencies": {
     "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "lr-main": "^1.0.0",
+    "lr-server-router": "^1.0.1"
   }
 }

@@ -1,9 +1,8 @@
 const protocol = require('http');
 const server   = protocol.createServer();
-const core     = require('lr-core');
 const router   = require('lr-server-router')(server);
 
-core('webserver')
+require('lr-main')('webserver')
   .extension('router', router, true)
   .middleware({
     response : (next, relay, request, response) => {
