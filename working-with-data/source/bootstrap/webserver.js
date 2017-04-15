@@ -1,11 +1,9 @@
 const protocol   = require('http');
 const server     = protocol.createServer();
-const core       = require('lr-core');
 const router     = require('lr-server-router')(server);
 const renderer   = require('lr-server-renderer')();
 const httpClient = require('../extensions/httpClient')('http://eol.org/api/');
-
-const road = core('webserver')
+const road 			 = require('lr-main')('webserver')
   .extension('router', router, true)
   .extension('renderer', renderer)
   .extension('httpClient', httpClient)

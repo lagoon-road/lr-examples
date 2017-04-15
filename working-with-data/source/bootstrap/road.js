@@ -22,7 +22,6 @@ module.exports = road => {
       .run('/', 'components.home.loading', 'data')
       .run('/', 'data.home', 'data')
       .run('/', 'components.home.loaded', 'data')
-      .run('/error', 'fail')
       .run('/about', 'components.about.loading')
       .run('/about', 'data.about')
       .run('/about', 'components.about.loaded')

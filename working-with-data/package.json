@@ -6,6 +6,7 @@
   "scripts": {
     "css": "node_modules/.bin/minify --output public/stylesheets/styles.css source/stylesheets/styles.css",
     "js-min": "node_modules/.bin/browserify source/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing > public/scripts/main.min.js",
+   "js-size": "node_modules/.bin/browserify source/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "serve": "NODE_ENV=development node_modules/.bin/nodemon --harmony source/bootstrap/webserver.js",
     "watch": "node_modules/.bin/npm-watch"
   },
@@ -44,6 +45,11 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "lr-client-renderer": "^1.0.0",
+    "lr-client-router": "^1.0.0",
+    "lr-main": "^1.0.0",
+    "lr-server-renderer": "^1.0.0",
+    "lr-server-router": "^1.0.1",
     "superagent": "^3.5.2"
   }
 }
