@@ -10,10 +10,8 @@ Let's have a look at how the response has been generated.
 ```
 const protocol = require('http');
 const server   = protocol.createServer();
-const core     = require('lr-core');
 const router   = require('lr-server-router')(server);
-
-core('webserver')
+require('lr-main')('webserver')
   .extension('router', router, true)
   .middleware({
     response : (next, relay, request, response) => {
@@ -40,7 +38,7 @@ The router package is a simple wrapper around the server request event and takes
 The next step is initializing the core and create a road object.
 
 ```
-core('webserver')
+require('lr-main')('webserver')
 ```
 
 We intialize the core here with a single argument. The argument is the identifier for our environment. Each time you initialize the road you want to tell it the context of where we want to attach the middleware and extensions. In this case we want to run it as a web server so we use that as the identifier.

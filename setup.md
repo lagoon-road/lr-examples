@@ -1,7 +1,7 @@
 # Installing Lagoon Road
 Like any other npm package you can just run
 ```
-npm i --save lr-core
+npm i --save lr-main
 ```
 > All the package names for the supplied packages can be found in the [reference overview](/reference).
 

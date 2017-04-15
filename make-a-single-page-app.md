@@ -8,7 +8,7 @@ const protocol = require('http');
 const server   = protocol.createServer();
 const router   = require('lr-server-router')(server);
 const renderer = require('lr-server-renderer')();
-const road     = require('lr-core')('webserver')
+const road     = require('lr-main')('webserver')
   .extension('router', router, true)
   .extension('renderer', renderer)
   .middleware({
@@ -37,7 +37,7 @@ This is the file that we will use for all the shared code between environments.
 ```
 const router   = require('lr-client-router');
 const renderer = require('lr-client-renderer');
-const road     = require('lr-core')('client')
+const road     = require('lr-main')('client')
   .extension('router', router, true)
   .extension('renderer', renderer, true);
 
