@@ -42,5 +42,12 @@
     "browserify": "^14.0.0",
     "minifier": "^0.8.1",
     "npm-watch": "^0.1.8"
+  },
+  "dependencies": {
+    "lr-client-renderer": "^1.0.0",
+    "lr-client-router": "^1.0.0",
+    "lr-main": "^1.0.0",
+    "lr-server-renderer": "^1.0.0",
+    "lr-server-router": "^1.0.1"
   }
 }

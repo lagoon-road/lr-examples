@@ -9,8 +9,8 @@ module.exports = (next, relay, request) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="Roy Niels">
-        <link rel="stylesheet" href="public/stylesheets/styles.css">
-        <script src="public/scripts/main.min.js"></script>
+        <link rel="stylesheet" href="/public/stylesheets/styles.css">
+        <script src="/public/scripts/main.min.js"></script>
       </head>
       <body>
         <nav></nav>
